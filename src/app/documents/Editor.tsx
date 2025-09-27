@@ -1,0 +1,48 @@
+"use client";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { TaskItem, TaskList } from '@tiptap/extension-list';
+import Heading from '@tiptap/extension-heading';
+import { TableKit } from '@tiptap/extension-table';
+import Image from '@tiptap/extension-image';
+import ImageResize from 'tiptap-extension-resize-image';
+
+
+
+
+
+const Editor = () => {
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      TaskList,
+      TaskItem.configure({
+        nested: true,
+      }),
+      Heading,
+      TableKit,
+      Image,
+      ImageResize
+      
+    ],
+    content: `<p>Hi there</p>`,
+    editorProps: {
+      attributes: {
+        style: "padding-left: 56px ;padding-right: 56px",
+        class:
+          "focus:outline-none bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pb-10 cursor-text",
+      },
+    },
+  });
+ 
+
+  return (
+    <div className="size-full overflow-x-auto px-4 bg-[#F9FBFD]  print:px-0 print:bg-white print:overflow-scroll ">
+      <div className="min-w-max   flex justify-center mx-auto w-[816px] py-4 print:py-0 print:mx-auto print:w-full">
+        <EditorContent editor={editor} />
+      </div>
+    </div>
+  );
+};
+
+export default Editor;
