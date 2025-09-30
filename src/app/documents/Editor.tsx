@@ -7,6 +7,7 @@ import { TableKit } from "@tiptap/extension-table";
 import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import { useEditorStore } from "@/store/use-editor-store";
+import Underline from "@tiptap/extension-underline";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -22,6 +23,7 @@ const Editor = () => {
       TableKit,
       Image,
       ImageResize,
+      Underline,
     ],
     content: `<p>Hi there</p>`,
     editorProps: {
@@ -32,6 +34,10 @@ const Editor = () => {
       },
     },
     onCreate: () => setEditor(editor),
+    onUpdate: () => setEditor(editor),
+    onTransaction: () => setEditor(editor),
+    onSelectionUpdate: () => setEditor(editor),
+    onDestroy: () => setEditor(null),
   });
 
   return (

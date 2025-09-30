@@ -1,7 +1,17 @@
 "use client";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
-import { LucideIcon, Undo2 } from "lucide-react";
+import {
+  BoldIcon,
+  ItalicIcon,
+  LucideIcon,
+  PrinterIcon,
+  Redo2Icon,
+  SpellCheckIcon,
+  UnderlineIcon,
+  Undo2Icon,
+} from "lucide-react";
 
 interface ToolBarButtonProps {
   onClick?: () => void;
@@ -37,8 +47,49 @@ const ToolBar = () => {
     [
       {
         label: "Undo",
-        icon: Undo2,
+        icon: Undo2Icon,
         onClick: () => editor?.chain().focus().undo().run(),
+      },
+      {
+        label: "Redo",
+        icon: Redo2Icon,
+        onClick: () => editor?.chain().focus().undo().run(),
+      },
+      {
+        label: "Print",
+        icon: PrinterIcon,
+        onClick: () => window.print(),
+      },
+      {
+        label: "Spell Check",
+        icon: SpellCheckIcon,
+        onClick: () => {
+          const isEnabled = editor?.view.dom.getAttribute("spellcheck");
+          editor?.view.dom.setAttribute(
+            "spellcheck",
+            isEnabled === "false" ? "true" : "false"
+          );
+        },
+      },
+    ],
+    [
+      {
+        label: "Bold",
+        icon: BoldIcon,
+        onClick: () => editor?.chain().focus().toggleBold().run(),
+        isActive: editor?.isActive("bold"),
+      },
+      {
+        label: "Italic",
+        icon: ItalicIcon,
+        onClick: () => editor?.chain().focus().toggleItalic().run(),
+        isActive: editor?.isActive("italic"),
+      },
+      {
+        label: "Underline",
+        icon: UnderlineIcon,
+        onClick: () => editor?.chain().focus().toggleUnderline().run(),
+        isActive: editor?.isActive("underline"),
       },
     ],
   ];
@@ -46,6 +97,10 @@ const ToolBar = () => {
   return (
     <div className="bg-[#F1F4F9]  min-h-[40px] px-2 py-1 flex items-center  overflow-x-auto ">
       {sections[0].map((item, index) => (
+        <ToolBarButton key={index} {...item} />
+      ))}
+      <Separator orientation="vertical" className="h-4 w-0.5 bg-slate-500" />
+      {sections[1].map((item, index) => (
         <ToolBarButton key={index} {...item} />
       ))}
     </div>

@@ -41,6 +41,7 @@
     "@tiptap/extension-image": "^2.10.2",
     "@tiptap/extension-list": "^3.5.1",
     "@tiptap/extension-table": "^3.0.0-beta.14",
+    "@tiptap/extension-underline": "^3.6.2",
     "@tiptap/pm": "^2.10.2",
     "@tiptap/react": "^2.10.2",
     "@tiptap/starter-kit": "^2.10.2",
@@ -64,7 +65,8 @@
     "tailwindcss-animate": "^1.0.7",
     "tiptap-extension-resize-image": "^1.2.1",
     "vaul": "^1.1.2",
-    "zod": "^4.1.11"
+    "zod": "^4.1.11",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@types/node": "^20",
