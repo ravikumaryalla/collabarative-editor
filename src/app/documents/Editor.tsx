@@ -1,17 +1,16 @@
 "use client";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { TaskItem, TaskList } from '@tiptap/extension-list';
-import Heading from '@tiptap/extension-heading';
-import { TableKit } from '@tiptap/extension-table';
-import Image from '@tiptap/extension-image';
-import ImageResize from 'tiptap-extension-resize-image';
-
-
-
-
+import { TaskItem, TaskList } from "@tiptap/extension-list";
+import Heading from "@tiptap/extension-heading";
+import { TableKit } from "@tiptap/extension-table";
+import Image from "@tiptap/extension-image";
+import ImageResize from "tiptap-extension-resize-image";
+import { useEditorStore } from "@/store/use-editor-store";
 
 const Editor = () => {
+  const { setEditor } = useEditorStore();
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -22,8 +21,7 @@ const Editor = () => {
       Heading,
       TableKit,
       Image,
-      ImageResize
-      
+      ImageResize,
     ],
     content: `<p>Hi there</p>`,
     editorProps: {
@@ -33,8 +31,8 @@ const Editor = () => {
           "focus:outline-none bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pb-10 cursor-text",
       },
     },
+    onCreate: () => setEditor(editor),
   });
- 
 
   return (
     <div className="size-full overflow-x-auto px-4 bg-[#F9FBFD]  print:px-0 print:bg-white print:overflow-scroll ">
