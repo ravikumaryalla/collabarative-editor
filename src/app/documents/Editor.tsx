@@ -8,6 +8,8 @@ import Image from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import { useEditorStore } from "@/store/use-editor-store";
 import Underline from "@tiptap/extension-underline";
+import { TextStyle } from "@tiptap/extension-text-style";
+import FontFamily from "@tiptap/extension-font-family";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -15,6 +17,8 @@ const Editor = () => {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      FontFamily,
+      TextStyle,
       TaskList,
       TaskItem.configure({
         nested: true,
@@ -25,7 +29,7 @@ const Editor = () => {
       ImageResize,
       Underline,
     ],
-    content: `<p>Hi there</p>`,
+    content: `<p style="font-family: Arial">Hi there</p>`,
     editorProps: {
       attributes: {
         style: "padding-left: 56px ;padding-right: 56px",
