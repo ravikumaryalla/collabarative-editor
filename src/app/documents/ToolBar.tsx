@@ -4,8 +4,11 @@ import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
 import {
   BoldIcon,
+  ImageIcon,
   ItalicIcon,
+  Link2Icon,
   LucideIcon,
+  MessageSquarePlusIcon,
   PrinterIcon,
   Redo2Icon,
   SpellCheckIcon,
@@ -53,7 +56,7 @@ const ToolBar = () => {
       {
         label: "Redo",
         icon: Redo2Icon,
-        onClick: () => editor?.chain().focus().undo().run(),
+        onClick: () => editor?.chain().focus().redo().run(),
       },
       {
         label: "Print",
@@ -92,15 +95,38 @@ const ToolBar = () => {
         isActive: editor?.isActive("underline"),
       },
     ],
+    [
+      {
+        label: "Insert Link",
+        icon: Link2Icon,
+        onClick: () => console.log("Insert Link"),
+        isActive: editor?.isActive("bold"),
+      },
+      {
+        label: "Add Comment",
+        icon: MessageSquarePlusIcon,
+        onClick: () => console.log("Add Comment"),
+      },
+      {
+        label: "Insert Image",
+        icon: ImageIcon,
+        onClick: () => console.log("Insert Image"),
+      },
+    ],
   ];
 
   return (
-    <div className="bg-[#F1F4F9]  min-h-[40px] px-2 py-1 flex items-center  overflow-x-auto ">
+    <div className="bg-[#F1F4F9]  min-h-[40px] px-2 py-1 flex items-center gap-2 overflow-x-auto ">
       {sections[0].map((item, index) => (
         <ToolBarButton key={index} {...item} />
       ))}
-      <Separator orientation="vertical" className="h-4 w-0.5 bg-slate-500" />
+      <Separator orientation="vertical" className="h-6 w-0.5 bg-slate-500" />
       {sections[1].map((item, index) => (
+        <ToolBarButton key={index} {...item} />
+      ))}
+      <Separator orientation="vertical" className="h-6 w-0.5 bg-slate-500" />
+
+      {sections[2].map((item, index) => (
         <ToolBarButton key={index} {...item} />
       ))}
     </div>
