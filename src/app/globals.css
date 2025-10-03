@@ -78,9 +78,11 @@ body {
   }
 }
 
-.tiptap {
- 
+.ProseMirror {
+  font-family: Arial, sans-serif;
+}
 
+.tiptap {
   /* List styles */
   ul,
   ol {
@@ -101,17 +103,14 @@ body {
     list-style-type: decimal;
   }
 
-
-
-
   /* Task list specific styles */
-  ul[data-type='taskList'] {
+  ul[data-type="taskList"] {
     list-style: none;
     margin-left: 0;
     padding: 0;
 
     li {
-      align-items: flex-start;
+      align-items: center;
       display: flex;
 
       > label {
@@ -125,16 +124,15 @@ body {
       }
     }
 
-    input[type='checkbox'] {
+    input[type="checkbox"] {
       cursor: pointer;
     }
 
-    ul[data-type='taskList'] {
+    ul[data-type="taskList"] {
       margin: 0;
     }
   }
 
-  
   /* Heading styles */
   h1,
   h2,
@@ -171,8 +169,6 @@ body {
     font-size: 1rem;
   }
 
-
-
   /* Table-specific styling */
   table {
     border-collapse: collapse;
@@ -203,7 +199,7 @@ body {
 
     .selectedCell:after {
       background: #c7c7c9;
-      content: '';
+      content: "";
       left: 0;
       right: 0;
       top: 0;
@@ -234,8 +230,7 @@ body {
     cursor: col-resize;
   }
 
-
-/* Image styles */
+  /* Image styles */
   img {
     display: block;
     height: auto;

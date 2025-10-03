@@ -4,17 +4,26 @@ import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
 import {
   BoldIcon,
+  ChevronUpIcon,
   ImageIcon,
   ItalicIcon,
   Link2Icon,
+  ListTodoIcon,
   LucideIcon,
   MessageSquarePlusIcon,
   PrinterIcon,
   Redo2Icon,
+  RemoveFormattingIcon,
   SpellCheckIcon,
   UnderlineIcon,
   Undo2Icon,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
 
 interface ToolBarButtonProps {
   onClick?: () => void;
@@ -36,6 +45,75 @@ const ToolBarButton = ({
     >
       <Icon />
     </button>
+  );
+};
+const FontFamilyButton = () => {
+  const { editor } = useEditorStore();
+  console.log(editor?.getAttributes("textStyle").fontFamily, "fontFamily");
+  console.log("editor in font familybutton", editor);
+  const fonts = [
+    {
+      label: "Arial",
+      onClick: () => editor?.chain().focus().setFontFamily("Arial").run(),
+      isActive: editor?.isActive("textStyle", { fontFamily: "Arial" }),
+    },
+    {
+      label: "Times New Roman",
+      onClick: () =>
+        editor?.chain().focus().setFontFamily("Times New Roman").run(),
+      isActive: editor?.isActive("textStyle", {
+        fontFamily: "Times New Roman",
+      }),
+    },
+    {
+      label: "Courier New",
+      onClick: () => editor?.chain().focus().setFontFamily("Courier New").run(),
+      isActive: editor?.isActive("textStyle", { fontFamily: "Courier New" }),
+    },
+    {
+      label: "Georgia",
+      onClick: () => editor?.chain().focus().setFontFamily("Georgia").run(),
+      isActive: editor?.isActive("textStyle", { fontFamily: "Georgia" }),
+    },
+    {
+      label: "Inter",
+      onClick: () => editor?.chain().focus().setFontFamily("Inter").run(),
+      isActive: editor?.isActive("textStyle", { fontFamily: "Inter" }),
+    },
+  ];
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button>
+          <span
+            className="flex justify-between w-[200px] text-lg hover:bg-neutral-400 rounded-sm p-1 "
+            style={{
+              fontFamily:
+                editor?.getAttributes("textStyle").fontFamily || "Arial",
+            }}
+          >
+            {editor?.getAttributes("textStyle").fontFamily || "Arial"}
+            <ChevronUpIcon />
+          </span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="z-[100] bg-[#F1F4F9] w-[200px] rounded-sm ">
+        {fonts.map((font, index) => (
+          <DropdownMenuItem
+            onClick={() =>
+              editor?.chain().focus().setFontFamily(font.label).run()
+            }
+            className=" w-full text-lg hover:bg-neutral-400 p-1 "
+            key={index}
+            style={{
+              fontFamily: font.label,
+            }}
+          >
+            {font.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
@@ -113,22 +191,42 @@ const ToolBar = () => {
         onClick: () => console.log("Insert Image"),
       },
     ],
+    [
+      {
+        label: "To Do List",
+        icon: ListTodoIcon,
+        onClick: () => editor?.chain().focus().toggleTaskList().run(),
+        isActive: editor?.isActive("taskList"),
+      },
+      {
+        label: "Add Comment",
+        icon: MessageSquarePlusIcon,
+        onClick: () => console.log("Add Comment"),
+      },
+      {
+        label: "Remove Formatting",
+        icon: RemoveFormattingIcon,
+        onClick: () => editor?.chain().focus().unsetAllMarks().run(),
+      },
+    ],
   ];
 
   return (
-    <div className="bg-[#F1F4F9]  min-h-[40px] px-2 py-1 flex items-center gap-2 overflow-x-auto ">
-      {sections[0].map((item, index) => (
-        <ToolBarButton key={index} {...item} />
+    <div className="bg-[#F1F4F9]  min-h-[40px] px-2 py-1 flex items-center  overflow-x-auto ">
+      {sections.map((section, sectionIndex) => (
+        <div key={sectionIndex} className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            {section.map((Item, index) => (
+              <ToolBarButton key={index} {...Item} />
+            ))}
+          </div>
+          <Separator
+            orientation="vertical"
+            className="mx-2 h-6 w-0.5 bg-slate-500"
+          />
+        </div>
       ))}
-      <Separator orientation="vertical" className="h-6 w-0.5 bg-slate-500" />
-      {sections[1].map((item, index) => (
-        <ToolBarButton key={index} {...item} />
-      ))}
-      <Separator orientation="vertical" className="h-6 w-0.5 bg-slate-500" />
-
-      {sections[2].map((item, index) => (
-        <ToolBarButton key={index} {...item} />
-      ))}
+      <FontFamilyButton />
     </div>
   );
 };
