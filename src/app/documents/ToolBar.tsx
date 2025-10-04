@@ -84,7 +84,7 @@ const FontFamilyButton = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button>
+        <button className="group">
           <span
             className="flex justify-between w-[200px] text-lg hover:bg-neutral-400 rounded-sm p-1 "
             style={{
@@ -93,7 +93,8 @@ const FontFamilyButton = () => {
             }}
           >
             {editor?.getAttributes("textStyle").fontFamily || "Arial"}
-            <ChevronUpIcon />
+            {/* <ChevronUpIcon className="transition group-data-[state=open]:rotate-180" /> */}
+            <ChevronUpIcon className="transition-transform linear group-data-[state=open]:rotate-180" />
           </span>
         </button>
       </DropdownMenuTrigger>
@@ -110,6 +111,73 @@ const FontFamilyButton = () => {
             }}
           >
             {font.label}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+const HeadingLevelButton = () => {
+  const { editor } = useEditorStore();
+
+  const getCurrentHeadingLevel = () => {
+    if (editor?.isActive("heading", { level: 1 })) {
+      return "Heading 1";
+    } else if (editor?.isActive("heading", { level: 2 })) {
+      return "Heading 2";
+    } else if (editor?.isActive("heading", { level: 3 })) {
+      return "Heading 3";
+    }
+    return "Normal Text";
+  };
+  const levels = [
+    {
+      label: "Normal Text",
+      onClick: () => editor?.chain().focus().setParagraph().run(),
+      isActive: editor?.isActive("textStyle", { fontFamily: "Arial" }),
+      fontSize: "1rem",
+    },
+    {
+      label: "Heading 1",
+      onClick: () => editor?.chain().focus().toggleHeading({ level: 1 }).run(),
+      isActive: editor?.isActive("heading", { level: 1 }),
+      fontSize: "1.4rem",
+    },
+    {
+      label: "Heading 2",
+      onClick: () => editor?.chain().focus().toggleHeading({ level: 2 }).run(),
+      isActive: editor?.isActive("heading", { level: 2 }),
+      fontSize: "1.2rem",
+    },
+    {
+      label: "Heading 3",
+      onClick: () => editor?.chain().focus().toggleHeading({ level: 3 }).run(),
+      isActive: editor?.isActive("heading", { level: 3 }),
+      fontSize: "1.1rem",
+    },
+  ];
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="group">
+          <span className="flex justify-between w-[200px] text-lg hover:bg-neutral-400 rounded-sm p-1 ">
+            {getCurrentHeadingLevel()}
+            <ChevronUpIcon className="transition-transform linear group-data-[state=open]:rotate-180" />
+          </span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="z-[100] bg-[#F1F4F9] w-[200px] rounded-sm ">
+        {levels.map((heading, index) => (
+          <DropdownMenuItem
+            onClick={() => heading.onClick()}
+            className=" w-full text-lg hover:bg-neutral-400 p-1 "
+            key={index}
+            style={{
+              fontSize: heading.fontSize,
+            }}
+          >
+            {heading.label}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -227,6 +295,7 @@ const ToolBar = () => {
         </div>
       ))}
       <FontFamilyButton />
+      <HeadingLevelButton />
     </div>
   );
 };
