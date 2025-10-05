@@ -39,6 +39,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tiptap/extension-font-family": "^2.10.2",
     "@tiptap/extension-heading": "^2.10.2",
+    "@tiptap/extension-highlight": "^2.10.2",
     "@tiptap/extension-image": "^2.10.2",
     "@tiptap/extension-list": "^3.5.1",
     "@tiptap/extension-table": "^3.0.0-beta.14",

@@ -10,6 +10,7 @@ import { useEditorStore } from "@/store/use-editor-store";
 import Underline from "@tiptap/extension-underline";
 import FontFamily from "@tiptap/extension-font-family";
 import { Color, TextStyle } from "@tiptap/extension-text-style";
+import Highlight from "@tiptap/extension-highlight";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -19,6 +20,7 @@ const Editor = () => {
       StarterKit,
       FontFamily,
       TextStyle,
+      Highlight,
       Color,
       TaskList,
       TaskItem.configure({

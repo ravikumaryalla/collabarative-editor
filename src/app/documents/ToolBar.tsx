@@ -6,6 +6,7 @@ import { useState } from "react";
 import {
   BoldIcon,
   ChevronUpIcon,
+  HighlighterIcon,
   ImageIcon,
   ItalicIcon,
   Link2Icon,
@@ -321,6 +322,14 @@ const ToolBar = () => {
         label: "Remove Formatting",
         icon: RemoveFormattingIcon,
         onClick: () => editor?.chain().focus().unsetAllMarks().run(),
+      },
+    ],
+    [
+      {
+        label: "Highlight",
+        icon: HighlighterIcon,
+        onClick: () => editor?.chain().focus().toggleHighlight().run(),
+        isActive: editor?.isActive("highlight"),
       },
     ],
   ];
