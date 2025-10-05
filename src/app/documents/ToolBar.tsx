@@ -2,6 +2,7 @@
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
+import { useState } from "react";
 import {
   BoldIcon,
   ChevronUpIcon,
@@ -24,6 +25,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
+import { SketchPicker } from "react-color";
 
 interface ToolBarButtonProps {
   onClick?: () => void;
@@ -185,6 +187,50 @@ const HeadingLevelButton = () => {
   );
 };
 
+const TextColorButton = () => {
+  const { editor } = useEditorStore();
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [color, setColor] = useState(editor?.getAttributes("textStyle").color);
+
+  const handleColorChange = (color: { hex: string }) => {
+    setColor(color.hex);
+    console.log(color, "color");
+    console.log("need to implement this");
+    console.log(editor);
+    editor?.chain().focus().setColor(color.hex).run();
+  };
+
+  return (
+    <div onClick={() => setShowColorPicker(!showColorPicker)}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="30"
+        height="30"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-baseline-icon lucide-baseline"
+      >
+        <path
+          d="M4 20h16"
+          color={editor?.getAttributes("textStyle").color || "#000000"}
+          stroke-width="4"
+        />
+        <path d="m6 16 6-12 6 12" />
+        <path d="M8 12h8" />
+      </svg>
+      {showColorPicker && (
+        <div className="absolute z-50 -translate-x-1/2 ">
+          <SketchPicker color={color} onChange={handleColorChange} />
+        </div>
+      )}
+    </div>
+  );
+};
+
 const ToolBar = () => {
   const { editor } = useEditorStore();
   const sections: {
@@ -296,6 +342,7 @@ const ToolBar = () => {
       ))}
       <FontFamilyButton />
       <HeadingLevelButton />
+      <TextColorButton />
     </div>
   );
 };
