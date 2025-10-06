@@ -27,6 +27,8 @@ import {
   DropdownMenuItem,
 } from "@radix-ui/react-dropdown-menu";
 import { SketchPicker } from "react-color";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface ToolBarButtonProps {
   onClick?: () => void;
@@ -232,6 +234,35 @@ const TextColorButton = () => {
   );
 };
 
+const InsertLinkButton = () => {
+  const { editor } = useEditorStore();
+  const [link, setLink] = useState("");
+  const [open, setOpen] = useState(false);
+  const onInsertLink = () => {
+    if (!link) editor?.chain().focus().unsetLink().run();
+    else {
+      editor?.chain().focus().setLink({ href: link }).run();
+    }
+    setOpen(false);
+  };
+
+  return (
+    <DropdownMenu onOpenChange={() => setOpen(!open)} open={open}>
+      <DropdownMenuTrigger asChild>
+        <Link2Icon />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="my-2 z-[100] bg-[#F1F4F9] w-[400px] rounded-sm p-4 flex gap-4 shadow-sm shadow-black">
+        <Input
+          className="border border-neutral-500  focus:outline-none"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+        />
+        <Button onClick={onInsertLink}>Insert Link</Button>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 const ToolBar = () => {
   const { editor } = useEditorStore();
   const sections: {
@@ -290,12 +321,6 @@ const ToolBar = () => {
     ],
     [
       {
-        label: "Insert Link",
-        icon: Link2Icon,
-        onClick: () => console.log("Insert Link"),
-        isActive: editor?.isActive("bold"),
-      },
-      {
         label: "Add Comment",
         icon: MessageSquarePlusIcon,
         onClick: () => console.log("Add Comment"),
@@ -352,6 +377,7 @@ const ToolBar = () => {
       <FontFamilyButton />
       <HeadingLevelButton />
       <TextColorButton />
+      <InsertLinkButton />
     </div>
   );
 };

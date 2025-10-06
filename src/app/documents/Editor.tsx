@@ -11,6 +11,7 @@ import Underline from "@tiptap/extension-underline";
 import FontFamily from "@tiptap/extension-font-family";
 import { Color, TextStyle } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
+import Link from "@tiptap/extension-link";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -21,6 +22,11 @@ const Editor = () => {
       FontFamily,
       TextStyle,
       Highlight,
+      Link.configure({
+        openOnClick: false,
+        defaultProtocol: "https",
+        autolink: true,
+      }),
       Color,
       TaskList,
       TaskItem.configure({
