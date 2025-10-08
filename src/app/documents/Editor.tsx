@@ -12,6 +12,7 @@ import FontFamily from "@tiptap/extension-font-family";
 import { Color, TextStyle } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
+import TextAlign from "@tiptap/extension-text-align";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -22,6 +23,9 @@ const Editor = () => {
       FontFamily,
       TextStyle,
       Highlight,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
       Link.configure({
         openOnClick: false,
         defaultProtocol: "https",

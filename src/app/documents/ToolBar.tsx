@@ -17,6 +17,9 @@ import {
   Redo2Icon,
   RemoveFormattingIcon,
   SpellCheckIcon,
+  TextAlignCenterIcon,
+  TextAlignEndIcon,
+  TextAlignStartIcon,
   UnderlineIcon,
   Undo2Icon,
 } from "lucide-react";
@@ -54,8 +57,6 @@ const ToolBarButton = ({
 };
 const FontFamilyButton = () => {
   const { editor } = useEditorStore();
-  console.log(editor?.getAttributes("textStyle").fontFamily, "fontFamily");
-  console.log("editor in font familybutton", editor);
   const fonts = [
     {
       label: "Arial",
@@ -197,9 +198,6 @@ const TextColorButton = () => {
 
   const handleColorChange = (color: { hex: string }) => {
     setColor(color.hex);
-    console.log(color, "color");
-    console.log("need to implement this");
-    console.log(editor);
     editor?.chain().focus().setColor(color.hex).run();
   };
 
@@ -220,7 +218,7 @@ const TextColorButton = () => {
         <path
           d="M4 20h16"
           color={editor?.getAttributes("textStyle").color || "#000000"}
-          stroke-width="4"
+          strokeWidth="4"
         />
         <path d="m6 16 6-12 6 12" />
         <path d="M8 12h8" />
@@ -258,6 +256,66 @@ const InsertLinkButton = () => {
           onChange={(e) => setLink(e.target.value)}
         />
         <Button onClick={onInsertLink}>Insert Link</Button>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+const AlignMentButton = () => {
+  const { editor } = useEditorStore();
+  const [open, setOpen] = useState(false);
+  const [alignment, setAlignment] = useState(
+    editor?.getAttributes("textStyle").textAlign || "start"
+  );
+  const handleAlignmentChange = (alignment: string) => {
+    setAlignment(alignment);
+    editor?.chain().focus().setTextAlign(alignment).run();
+    setOpen(false);
+  };
+
+  return (
+    <DropdownMenu open={open} onOpenChange={() => setOpen(!open)}>
+      <DropdownMenuTrigger>
+        {alignment === "left" ? (
+          <TextAlignStartIcon />
+        ) : alignment === "center" ? (
+          <TextAlignCenterIcon />
+        ) : alignment === "right" ? (
+          <TextAlignEndIcon />
+        ) : (
+          <TextAlignStartIcon />
+        )}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="my-2 z-[100] bg-[#F1F4F9]  rounded-sm px-2 py-1 flex gap-4 shadow-sm shadow-black">
+        <div
+          className={cn(
+            "hover:bg-neutral-400 p-1 rounded-sm cursor-pointer",
+            editor?.isActive({ textAlign: "left" }) ? "bg-neutral-400" : ""
+          )}
+          onClick={() => handleAlignmentChange("left")}
+        >
+          <TextAlignStartIcon />
+        </div>
+
+        <div
+          className={cn(
+            "hover:bg-neutral-400 p-1 rounded-sm",
+            editor?.isActive({ textAlign: "center" }) ? "bg-neutral-400" : ""
+          )}
+          onClick={() => handleAlignmentChange("center")}
+        >
+          <TextAlignCenterIcon />
+        </div>
+
+        <div
+          className={cn(
+            "hover:bg-neutral-400 p-1 rounded-sm",
+            editor?.isActive({ textAlign: "right" }) ? "bg-neutral-400" : ""
+          )}
+          onClick={() => handleAlignmentChange("right")}
+        >
+          <TextAlignEndIcon />
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -378,6 +436,7 @@ const ToolBar = () => {
       <HeadingLevelButton />
       <TextColorButton />
       <InsertLinkButton />
+      <AlignMentButton />
     </div>
   );
 };
