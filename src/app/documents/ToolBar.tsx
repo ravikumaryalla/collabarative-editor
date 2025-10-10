@@ -10,6 +10,8 @@ import {
   ImageIcon,
   ItalicIcon,
   Link2Icon,
+  ListIcon,
+  ListOrderedIcon,
   ListTodoIcon,
   LucideIcon,
   MessageSquarePlusIcon,
@@ -413,6 +415,18 @@ const ToolBar = () => {
         icon: HighlighterIcon,
         onClick: () => editor?.chain().focus().toggleHighlight().run(),
         isActive: editor?.isActive("highlight"),
+      },
+      {
+        label: "Bullet List",
+        icon: ListIcon,
+        onClick: () => editor?.chain().focus().toggleBulletList().run(),
+        isActive: editor?.isActive("bulletList"),
+      },
+      {
+        label: "Bullet List",
+        icon: ListOrderedIcon,
+        onClick: () => editor?.chain().focus().toggleOrderedList().run(),
+        isActive: editor?.isActive("orderedList"),
       },
     ],
   ];

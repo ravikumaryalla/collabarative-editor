@@ -13,6 +13,7 @@ import { Color, TextStyle } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
+import { BulletList } from "@tiptap/extension-list";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -41,6 +42,7 @@ const Editor = () => {
       Image,
       ImageResize,
       Underline,
+      BulletList,
     ],
     content: `<p style="font-family: Arial">Hi there</p>`,
     editorProps: {
