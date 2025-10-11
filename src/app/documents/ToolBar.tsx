@@ -10,6 +10,7 @@ import {
   ImageIcon,
   ItalicIcon,
   Link2Icon,
+  ListCollapseIcon,
   ListIcon,
   ListOrderedIcon,
   ListTodoIcon,
@@ -387,6 +388,34 @@ const FontSizeButton = () => {
   );
 };
 
+const LineHeightButton = () => {
+  const { editor } = useEditorStore();
+  const lineHeights = ["1.2", "1.4", "1.6", "1.8", "2.0"];
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="group">
+          <span className="flex justify-between  text-lg hover:bg-neutral-400 rounded-sm p-1 ">
+            <ListCollapseIcon />
+          </span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="z-[100] bg-[#F1F4F9] w-[50px] rounded-sm  flex-col justify-center">
+        {lineHeights.map((lineHeight, index) => (
+          <DropdownMenuItem
+            onClick={() =>
+              editor?.chain().focus().toggleTextStyle({ lineHeight }).run()
+            }
+            className=" w-full text-lg hover:bg-neutral-400 p-1 text-center "
+            key={index}
+          >
+            {lineHeight}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 const ToolBar = () => {
   const { editor } = useEditorStore();
   const sections: {
@@ -516,6 +545,7 @@ const ToolBar = () => {
       <InsertLinkButton />
       <AlignMentButton />
       <FontSizeButton />
+      <LineHeightButton />
     </div>
   );
 };
