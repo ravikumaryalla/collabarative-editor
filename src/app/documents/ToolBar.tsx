@@ -2,7 +2,7 @@
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   BoldIcon,
   ChevronUpIcon,
@@ -15,6 +15,8 @@ import {
   ListTodoIcon,
   LucideIcon,
   MessageSquarePlusIcon,
+  MinusIcon,
+  PlusIcon,
   PrinterIcon,
   Redo2Icon,
   RemoveFormattingIcon,
@@ -323,6 +325,68 @@ const AlignMentButton = () => {
   );
 };
 
+const FontSizeButton = () => {
+  const { editor } = useEditorStore();
+
+  const getCurrentFontSize = () => {
+    return (
+      editor?.getAttributes("textStyle")?.fontSize?.replace("px", "") || "16"
+    );
+  };
+
+  const [fontSize, setFontSize] = useState(getCurrentFontSize());
+
+  const handleFontSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const font = e.target.value;
+    if (!font) return;
+    if (!parseInt(font)) return;
+    setFontSize(font);
+    editor?.chain().focus().setFontSize(`${font}px`).run();
+  };
+  const handleIncrementFontSize = () => {
+    const currentFontSize = parseInt(fontSize) || 16;
+    const newFontSize = currentFontSize + 1;
+    setFontSize(newFontSize.toString());
+    editor?.chain().focus().setFontSize(`${newFontSize}px`).run();
+  };
+
+  const handleDecrementFontSize = () => {
+    const currentFontSize = parseInt(fontSize) || 16;
+    if (currentFontSize <= 1) return;
+    const newFontSize = currentFontSize - 1;
+    setFontSize(newFontSize.toString());
+    editor?.chain().focus().setFontSize(`${newFontSize}px`).run();
+  };
+
+  return (
+    <div className="flex gap-1">
+      <button
+        className={cn(
+          "flex items-center justify-center h-7 min-w-7 rounded-md text-sm  hover:bg-neutral-400/80"
+        )}
+        onClick={() => handleDecrementFontSize()}
+      >
+        <MinusIcon />
+      </button>
+      <span>
+        <input
+          className="h-7 w-9 rounded-sm text-center bg-transparent outline-none border border-neutral-500 shadow-sm"
+          value={fontSize}
+          onChange={handleFontSizeChange}
+        />
+      </span>
+      <button
+        className={cn(
+          "flex items-center justify-center h-7 min-w-7 rounded-md text-sm  hover:bg-neutral-400/80"
+        )}
+        onClick={() => handleIncrementFontSize()}
+      >
+        <PlusIcon />
+      </button>
+    </div>
+  );
+};
+
 const ToolBar = () => {
   const { editor } = useEditorStore();
   const sections: {
@@ -451,6 +515,7 @@ const ToolBar = () => {
       <TextColorButton />
       <InsertLinkButton />
       <AlignMentButton />
+      <FontSizeButton />
     </div>
   );
 };
