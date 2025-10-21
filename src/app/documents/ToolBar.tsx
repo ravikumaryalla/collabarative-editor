@@ -471,43 +471,23 @@ const ToolBar = () => {
         onClick: () => editor?.chain().focus().toggleUnderline().run(),
         isActive: editor?.isActive("underline"),
       },
-    ],
-    [
-      {
-        label: "Add Comment",
-        icon: MessageSquarePlusIcon,
-        onClick: () => console.log("Add Comment"),
-      },
-      {
-        label: "Insert Image",
-        icon: ImageIcon,
-        onClick: () => console.log("Insert Image"),
-      },
-    ],
-    [
-      {
-        label: "To Do List",
-        icon: ListTodoIcon,
-        onClick: () => editor?.chain().focus().toggleTaskList().run(),
-        isActive: editor?.isActive("taskList"),
-      },
-      {
-        label: "Add Comment",
-        icon: MessageSquarePlusIcon,
-        onClick: () => console.log("Add Comment"),
-      },
-      {
-        label: "Remove Formatting",
-        icon: RemoveFormattingIcon,
-        onClick: () => editor?.chain().focus().unsetAllMarks().run(),
-      },
-    ],
-    [
       {
         label: "Highlight",
         icon: HighlighterIcon,
         onClick: () => editor?.chain().focus().toggleHighlight().run(),
         isActive: editor?.isActive("highlight"),
+      },
+    ],
+    [
+      {
+        label: "Insert Image",
+        icon: ImageIcon,
+        onClick: () => console.log("Insert Image"),
+      },
+      {
+        label: "Add Comment",
+        icon: MessageSquarePlusIcon,
+        onClick: () => console.log("Add Comment"),
       },
       {
         label: "Bullet List",
@@ -521,31 +501,66 @@ const ToolBar = () => {
         onClick: () => editor?.chain().focus().toggleOrderedList().run(),
         isActive: editor?.isActive("orderedList"),
       },
+      {
+        label: "To Do List",
+        icon: ListTodoIcon,
+        onClick: () => editor?.chain().focus().toggleTaskList().run(),
+        isActive: editor?.isActive("taskList"),
+      },
+      {
+        label: "Remove Formatting",
+        icon: RemoveFormattingIcon,
+        onClick: () => editor?.chain().focus().unsetAllMarks().run(),
+      },
     ],
+    [
+      {
+        label: "Add Comment",
+        icon: MessageSquarePlusIcon,
+        onClick: () => console.log("Add Comment"),
+      },
+    ],
+    [],
   ];
 
   return (
-    <div className="bg-[#F1F4F9]  min-h-[40px] px-2 py-1 flex items-center  overflow-x-auto ">
-      {sections.map((section, sectionIndex) => (
-        <div key={sectionIndex} className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
-            {section.map((Item, index) => (
-              <ToolBarButton key={index} {...Item} />
-            ))}
-          </div>
-          <Separator
-            orientation="vertical"
-            className="mx-2 h-6 w-0.5 bg-slate-500"
-          />
-        </div>
+    <div className="bg-[#F1F4F9]  min-h-[40px] px-2 py-1 flex items-center  overflow-x-auto gap-2">
+      {sections[0].map((Item, index) => (
+        <ToolBarButton key={index} {...Item} />
       ))}
+      <Separator
+        orientation="vertical"
+        className="mx-1 h-6 w-0.5 bg-slate-500"
+      />
       <FontFamilyButton />
+      <Separator
+        orientation="vertical"
+        className="mx-1 h-6 w-0.5 bg-slate-500"
+      />
       <HeadingLevelButton />
-      <TextColorButton />
-      <InsertLinkButton />
-      <AlignMentButton />
+      <Separator
+        orientation="vertical"
+        className="mx-1 h-6 w-0.5 bg-slate-500"
+      />
       <FontSizeButton />
+      <Separator
+        orientation="vertical"
+        className="mx-1 h-6 w-0.5 bg-slate-500"
+      />
+      {sections[1].map((Item, index) => (
+        <ToolBarButton key={index} {...Item} />
+      ))}
+      <TextColorButton />
+      <Separator
+        orientation="vertical"
+        className="mx-1 h-6 w-0.5 bg-slate-500"
+      />
+      <InsertLinkButton />
+      {sections[2].map((Item, index) => (
+        <ToolBarButton key={index} {...Item} />
+      ))}
       <LineHeightButton />
+      <AlignMentButton />
     </div>
   );
 };
