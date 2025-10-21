@@ -15,6 +15,7 @@ import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import { BulletList } from "@tiptap/extension-list";
 import { FontSizeExtension } from "@/extensions/font-size";
+import Ruler from "./Ruler";
 
 const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -55,6 +56,7 @@ const Editor = () => {
           "focus:outline-none bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pb-10 cursor-text",
       },
     },
+    immediatelyRender: false,
     onCreate: () => setEditor(editor),
     onUpdate: () => setEditor(editor),
     onTransaction: () => setEditor(editor),
@@ -64,6 +66,7 @@ const Editor = () => {
 
   return (
     <div className="size-full overflow-x-auto px-4 bg-[#F9FBFD]  print:px-0 print:bg-white print:overflow-scroll ">
+      <Ruler />
       <div className="min-w-max   flex justify-center mx-auto w-[816px] py-4 print:py-0 print:mx-auto print:w-full">
         <EditorContent editor={editor} />
       </div>
