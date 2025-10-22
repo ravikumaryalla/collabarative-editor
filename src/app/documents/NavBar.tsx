@@ -78,7 +78,7 @@ const NavBar = () => {
 
   return (
     <div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 p-2 items-center">
         <Link href="/">
           <Image src="/logo.svg" width={36} height={36} alt="logo" />
         </Link>
