@@ -11,6 +11,7 @@ export default function Home() {
     { paginationOpts: {} }, // required argument, even if empty
     { initialNumItems: 5 }
   );
+  console.log(results, "res");
 
   return (
     <div className="flex h-screen w-screen flex-col gap-4">
@@ -18,7 +19,12 @@ export default function Home() {
       <div className="mt-14 w-screen  bg-[#F1F3F4]">
         <TemplateGallery />
       </div>
-      <DocumentTable documents={results.results} loadMore={results.loadMore} />
+      <DocumentTable
+        documents={results.results}
+        loadMore={results.loadMore}
+        status={results.status}
+        isLoading={results.isLoading}
+      />
     </div>
   );
 }

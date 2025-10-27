@@ -8,7 +8,7 @@ import { UserButton } from "@clerk/nextjs";
 
 const NavBar = () => {
   return (
-    <div className="flex  p-2  justify-between w-full fixed top-0 left-0 z-10">
+    <div className="flex  p-2  justify-between w-full fixed top-0 left-0 z-10 bg-white">
       <div className="flex gap-2 min-w-40">
         <Link href="/">
           <Image src="/logo.svg" width={36} height={36} alt="logo" />
