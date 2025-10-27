@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import {
   Building2Icon,
   CircleUserIcon,
+  LoaderIcon,
   MoreVerticalIcon,
   PencilIcon,
 } from "lucide-react";
@@ -25,9 +26,17 @@ import { useRouter } from "next/navigation";
 interface DocumentTableProps {
   documents: Doc<"documents">[] | undefined;
   loadMore: (numItems: number) => void;
+  status: string;
+  isLoading: boolean;
 }
-const DocumentTable = ({ documents, loadMore }: DocumentTableProps) => {
+const DocumentTable = ({
+  documents,
+  loadMore,
+  status,
+  isLoading,
+}: DocumentTableProps) => {
   const router = useRouter();
+  console.log("status", status);
   const handleDoubleClickRow = (documentId: string) => {
     router.push(`/documents/${documentId}`);
   };
@@ -87,6 +96,25 @@ const DocumentTable = ({ documents, loadMore }: DocumentTableProps) => {
               </TableRow>
             );
           })}
+          {documents?.length != 0 && (
+            <TableRow>
+              <TableCell colSpan={5} className="text-center">
+                <Button
+                  onClick={() => loadMore(10)}
+                  variant={"ghost"}
+                  disabled={status !== "CanLoadMore"}
+                >
+                  {isLoading ? (
+                    <LoaderIcon className="animate-spin" />
+                  ) : status === "CanLoadMore" ? (
+                    "Load More"
+                  ) : (
+                    "No more documents"
+                  )}
+                </Button>
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </div>
