@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import SearchInput from "./SearchInput";
+import { UserButton } from "@clerk/nextjs";
 
 const NavBar = () => {
   return (
@@ -17,7 +18,9 @@ const NavBar = () => {
       </div>
       <SearchInput />
 
-      <div></div>
+      <div>
+        <UserButton />
+      </div>
     </div>
   );
 };
