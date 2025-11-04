@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.34.0",
+    "@clerk/nextjs": "^4.31.8",
     "@hookform/resolvers": "^5.2.2",
+    "@liveblocks/client": "^2.12.2",
+    "@liveblocks/react": "^2.12.2",
+    "@liveblocks/react-tiptap": "^2.12.2",
+    "@liveblocks/react-ui": "^2.12.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
@@ -38,6 +42,8 @@
     "@radix-ui/react-toggle": "^1.1.10",
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "@tiptap/extension-collaboration": "^2.10.2",
+    "@tiptap/extension-collaboration-cursor": "^2.10.2",
     "@tiptap/extension-font-family": "^2.10.2",
     "@tiptap/extension-heading": "^2.10.2",
     "@tiptap/extension-highlight": "^2.10.2",
@@ -56,6 +62,7 @@
     "cmdk": "^1.1.1",
     "convex": "^1.28.0",
     "date-fns": "^4.1.0",
+    "deps": "^1.0.0",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.544.0",
@@ -75,6 +82,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tiptap-extension-resize-image": "^1.2.1",
     "vaul": "^1.1.2",
+    "y-protocols": "^1.0.6",
     "zod": "^4.1.11",
     "zustand": "^5.0.8"
   },
