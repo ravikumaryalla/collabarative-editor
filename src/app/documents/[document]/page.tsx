@@ -2,7 +2,7 @@
 import Editor from "./Editor";
 import ToolBar from "./ToolBar";
 import NavBar from "./NavBar";
-
+import { Room } from "./room";
 const Document = ({ params }: { params: { document: string } }) => {
   if (!document) return <div>Loading...</div>;
   return (
@@ -11,8 +11,9 @@ const Document = ({ params }: { params: { document: string } }) => {
         <NavBar />
         <ToolBar />
       </div>
-
-      <Editor />
+      <Room>
+        <Editor />
+      </Room>
     </div>
   );
 };

@@ -487,7 +487,9 @@ const ToolBar = () => {
       {
         label: "Add Comment",
         icon: MessageSquarePlusIcon,
-        onClick: () => console.log("Add Comment"),
+        onClick: () => editor?.chain().focus().addPendingComment().run(),
+        // onClick: () => console.log("Add Comment"),
+        isActive: editor?.isActive("liveblocksCommentmark"),
       },
       {
         label: "Bullet List",
@@ -513,14 +515,6 @@ const ToolBar = () => {
         onClick: () => editor?.chain().focus().unsetAllMarks().run(),
       },
     ],
-    [
-      {
-        label: "Add Comment",
-        icon: MessageSquarePlusIcon,
-        onClick: () => console.log("Add Comment"),
-      },
-    ],
-    [],
   ];
 
   return (
