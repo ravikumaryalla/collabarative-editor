@@ -8,7 +8,7 @@ import { usePaginatedQuery } from "convex/react";
 export default function Home() {
   const results = usePaginatedQuery(
     api.document.getDocuments,
-    { paginationOpts: {} }, // required argument, even if empty
+    { search: "" },
     { initialNumItems: 5 }
   );
   console.log(results, "res");
