@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import SearchInput from "./SearchInput";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
 
 const NavBar = () => {
   return (
@@ -18,7 +18,13 @@ const NavBar = () => {
       </div>
       <SearchInput />
 
-      <div>
+      <div className="flex ">
+        <OrganizationSwitcher
+          afterCreateOrganizationUrl={"/"}
+          afterLeaveOrganizationUrl="/"
+          afterSelectOrganizationUrl={"/"}
+          afterSelectPersonalUrl={"/"}
+        />
         <UserButton />
       </div>
     </div>
