@@ -13,6 +13,7 @@ import {
 import { Id } from "../../../convex/_generated/dataModel";
 import { api } from "../../../convex/_generated/api";
 import { useMutation } from "convex/react";
+import { toast } from "sonner";
 
 interface RemoveDialogProps {
   children: React.ReactNode;
@@ -24,6 +25,10 @@ const RemoveDialog = ({ children, documentId }: RemoveDialogProps) => {
 
   const handleDelete = async () => {
     await deleteDocument({ id: documentId });
+    toast.error("Document Deleted", {
+      position: "top-right",
+      style: { backgroundColor: "#f87171", padding: "12px" },
+    });
   };
 
   return (
