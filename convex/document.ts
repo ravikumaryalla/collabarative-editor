@@ -2,10 +2,47 @@ import { query } from "./_generated/server";
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 import { paginationOptsValidator } from "convex/server";
+
 export const getDocuments = query({
-  args: { paginationOpts: paginationOptsValidator },
-  handler: async (ctx, args) => {
-    return await ctx.db.query("documents").paginate(args.paginationOpts);
+  args: {
+    paginationOpts: paginationOptsValidator,
+    search: v.optional(v.string()),
+  },
+  handler: async (ctx, { search, paginationOpts }) => {
+    const user = await ctx.auth.getUserIdentity();
+
+    if (!user) throw new Error("Unauthorized");
+
+    if (user?.org_id && search) {
+      const results = await ctx.db
+        .query("documents")
+        .withSearchIndex("search_title", (q) =>
+          q.search("title", search).eq("organizationId", user.org_id as string)
+        )
+        .paginate(paginationOpts);
+
+      console.log(results, "ravi");
+      return results;
+    }
+
+    if (user?.org_id) {
+      return await ctx.db
+        .query("documents")
+        .withIndex("by_organization", (q) =>
+          q.eq("organizationId", user.org_id as string)
+        )
+        .paginate(paginationOpts);
+    }
+
+    if (search) {
+      return await ctx.db
+        .query("documents")
+        .withSearchIndex("search_title", (q) =>
+          q.search("title", search).eq("ownerId", user.subject)
+        )
+        .paginate(paginationOpts);
+    }
+    return await ctx.db.query("documents").paginate(paginationOpts);
   },
 });
 
@@ -24,6 +61,7 @@ export const createDocument = mutation({
       title,
       initialContent,
       ownerId: authInfo.subject,
+      organizationId: authInfo.org_id as string,
     });
   },
 });
