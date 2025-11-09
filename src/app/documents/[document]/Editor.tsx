@@ -74,12 +74,15 @@ const Editor = () => {
   const params = useParams();
 
   return (
-    <div className="size-full overflow-x-auto px-4 bg-[#F9FBFD]  print:px-0 print:bg-white print:overflow-scroll ">
+    <div className="size-full overflow-x-auto px-4 bg-[#F9FBFD] print:px-0 print:bg-white print:overflow-scroll editor-outer-container">
       <Ruler />
-      <div className="min-w-max   flex justify-center mx-auto w-[816px] py-4 print:py-0 print:mx-auto print:w-full">
-        <EditorContent editor={editor} />
-
-        <Threads editor={editor} />
+      <div className="relative mx-auto py-4 print:py-0 print:mx-auto print:w-full editor-wrapper">
+        <div className="w-[816px] print:w-full relative mx-auto">
+          <EditorContent editor={editor} />
+        </div>
+        <div className="editor-threads-container print:hidden">
+          <Threads editor={editor} />
+        </div>
       </div>
     </div>
   );
