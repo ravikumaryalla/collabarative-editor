@@ -250,18 +250,49 @@ body {
   }
 }
 
+/* Editor wrapper to accommodate threads */
+.editor-wrapper {
+  max-width: calc(816px + 320px + 32px);
+  min-width: 816px;
+}
+
 /* For mobile */
 .floating-threads {
   display: none;
 }
 
 /* For desktop */
+.editor-threads-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(calc(816px / 2 + 10px));
+  width: 250px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.editor-threads-container > * {
+  pointer-events: all;
+}
+
 .anchored-threads {
   display: block;
-  max-width: 300px;
+  max-width: 280px;
   width: 100%;
-  position: absolute;
-  right: 12px;
+  position: relative;
+}
+
+@media (max-width: 1152px) {
+  .editor-wrapper {
+    max-width: 816px;
+  }
+  
+  .editor-threads-container {
+    left: auto;
+    right: 16px;
+    transform: none;
+  }
 }
 
 @media (max-width: 640px) {
@@ -271,5 +302,17 @@ body {
 
   .anchored-threads {
     display: none;
+  }
+  
+  .editor-threads-container {
+    position: static;
+    width: auto;
+    transform: none;
+    left: auto;
+    right: auto;
+  }
+  
+  .editor-wrapper {
+    min-width: auto;
   }
 }
