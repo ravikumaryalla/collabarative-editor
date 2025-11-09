@@ -35,6 +35,8 @@ import {
 } from "lucide-react";
 import { BsFilePdf } from "react-icons/bs";
 import { useEditorStore } from "@/store/use-editor-store";
+import { Avatars } from "./avatar";
+import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
 
 const NavBar = () => {
   const { editor } = useEditorStore();
@@ -77,8 +79,8 @@ const NavBar = () => {
   };
 
   return (
-    <div>
-      <div className="flex gap-2 p-2 items-center">
+    <div className="flex justify-between">
+      <div className="flex gap-2 p-2 items-center ">
         <Link href="/">
           <Image src="/logo.svg" width={36} height={36} alt="logo" />
         </Link>
@@ -243,6 +245,22 @@ const NavBar = () => {
             </Menubar>
           </div>
         </div>
+      </div>
+      <div
+        className="flex gap-2 p-2 items-center"
+        style={{
+          border: "black 2px red",
+        }}
+      >
+        <Avatars />
+
+        <OrganizationSwitcher
+          afterCreateOrganizationUrl={"/"}
+          afterLeaveOrganizationUrl="/"
+          afterSelectOrganizationUrl={"/"}
+          afterSelectPersonalUrl={"/"}
+        />
+        <UserButton />
       </div>
     </div>
   );
