@@ -66,7 +66,6 @@ const TemplateGallery = () => {
     createDocument({
       title,
       initialContent,
-      ownerId: "test",
     }).then((data) => {
       router.push(`/documents/${data}`);
     });
