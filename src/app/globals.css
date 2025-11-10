@@ -287,7 +287,7 @@ body {
   .editor-wrapper {
     max-width: 816px;
   }
-  
+
   .editor-threads-container {
     left: auto;
     right: 16px;
@@ -303,7 +303,7 @@ body {
   .anchored-threads {
     display: none;
   }
-  
+
   .editor-threads-container {
     position: static;
     width: auto;
@@ -311,8 +311,12 @@ body {
     left: auto;
     right: auto;
   }
-  
+
   .editor-wrapper {
     min-width: auto;
   }
+}
+
+div[data-radix-popper-content-wrapper] {
+  z-index: 100 !important;
 }
