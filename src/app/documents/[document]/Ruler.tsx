@@ -1,9 +1,19 @@
+import { useStorage, useMutation } from "@liveblocks/react/suspense";
+import { root } from "postcss";
 import React, { useRef, useState } from "react";
+
 import { FaCaretDown } from "react-icons/fa";
 const markers = Array.from({ length: 83 }, (_, i) => i);
 const Ruler = () => {
-  const [leftMargin, SetLeftMargin] = useState(56);
-  const [rightMargin, SetRightMargin] = useState(56);
+  const leftMargin = useStorage((root) => root.leftMargin);
+  const rightMargin = useStorage((root) => root.rightMargin);
+  const SetLeftMargin = useMutation(({ storage }, margin: number) => {
+    storage.set("leftMargin", margin);
+  }, []);
+
+  const SetRightMargin = useMutation(({ storage }, margin: number) => {
+    storage.set("rightMargin", margin);
+  }, []);
 
   const [isDraggingLeft, setIsDraggingLeft] = useState(false);
   const [isDraggingRight, setIsDraggingRight] = useState(false);

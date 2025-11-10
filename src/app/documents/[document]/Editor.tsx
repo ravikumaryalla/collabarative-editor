@@ -17,10 +17,12 @@ import { BulletList } from "@tiptap/extension-list";
 import { FontSizeExtension } from "@/extensions/font-size";
 import { useParams } from "next/navigation";
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
-
 import Ruler from "./Ruler";
 import { Threads } from "./threads";
+import { useStorage } from "@liveblocks/react/suspense";
 const Editor = () => {
+  const leftMargin = useStorage((root) => root.leftMargin);
+  const rightMargin = useStorage((root) => root.rightMargin);
   const liveblocks = useLiveblocksExtension();
   const { setEditor } = useEditorStore();
 
@@ -58,7 +60,7 @@ const Editor = () => {
     content: `<p style="font-family: Arial">Hi there</p>`,
     editorProps: {
       attributes: {
-        style: "padding-left: 56px ;padding-right: 56px",
+        style: `padding-left: ${leftMargin}px ;padding-right: ${rightMargin}px`,
         class:
           "focus:outline-none bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pb-10 cursor-text",
       },
