@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { useOthers, useSelf } from "@liveblocks/react";
+import { useOthers, useSelf, ClientSideSuspense } from "@liveblocks/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -40,7 +40,9 @@ const getAvatarColor = (userId: string): string => {
     "bg-green-500",
     "bg-red-500",
   ];
-  const index = userId.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const index = userId
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
   return colors[index % colors.length];
 };
 
@@ -50,7 +52,10 @@ export const Avatars = () => {
 
   // Combine current user with others, ensuring no duplicates
   const allUsers = useMemo(() => {
-    const userMap = new Map<string, { id: string; name: string; avatar?: string }>();
+    const userMap = new Map<
+      string,
+      { id: string; name: string; avatar?: string }
+    >();
 
     // Add current user first
     if (currentUser?.info) {
@@ -84,64 +89,63 @@ export const Avatars = () => {
   const remainingCount = allUsers.length - visibleUsers.length;
 
   return (
-    <TooltipProvider delayDuration={200}>
-      <div className="flex items-center gap-3">
-        {/* Overlapping avatars */}
-        <div className="flex items-center -space-x-2">
-          {visibleUsers.map((user, index) => (
-            <Tooltip key={user.id}>
-              <TooltipTrigger asChild>
-                <Avatar
-                  className={cn(
-                    "h-8 w-8 border-2 border-white transition-all duration-200",
-                    "hover:z-20 hover:scale-110 hover:shadow-md",
-                    "cursor-pointer"
-                  )}
-                >
-                  <AvatarImage
-                    src={user.avatar}
-                    alt={user.name}
-                    className="object-cover"
-                  />
-                  <AvatarFallback
+    <ClientSideSuspense fallback={null}>
+      <TooltipProvider delayDuration={200}>
+        <div className="flex items-center gap-3">
+          {/* Overlapping avatars */}
+          <div className="flex items-center -space-x-2">
+            {visibleUsers.map((user, index) => (
+              <Tooltip key={user.id}>
+                <TooltipTrigger asChild>
+                  <Avatar
                     className={cn(
-                      "text-white text-xs font-semibold",
-                      getAvatarColor(user.id)
+                      "h-8 w-8 border-2 border-white transition-all duration-200",
+                      "hover:z-20 hover:scale-110 hover:shadow-md",
+                      "cursor-pointer"
                     )}
                   >
-                    {getInitials(user.name)}
-                  </AvatarFallback>
-                </Avatar>
+                    <AvatarImage
+                      src={user.avatar}
+                      alt={user.name}
+                      className="object-cover"
+                    />
+                    <AvatarFallback
+                      className={cn(
+                        "text-white text-xs font-semibold",
+                        getAvatarColor(user.id)
+                      )}
+                    >
+                      {getInitials(user.name)}
+                    </AvatarFallback>
+                  </Avatar>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="text-xs">
+                  {user.name}
+                </TooltipContent>
+              </Tooltip>
+            ))}
+          </div>
+
+          {/* Show count if more than 5 users */}
+          {remainingCount > 0 && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-muted text-xs font-semibold text-muted-foreground hover:bg-muted/80">
+                  +{remainingCount}
+                </div>
               </TooltipTrigger>
               <TooltipContent side="bottom" className="text-xs">
-                {user.name}
+                {remainingCount} more {remainingCount === 1 ? "user" : "users"}
               </TooltipContent>
             </Tooltip>
-          ))}
+          )}
+
+          {/* Separator */}
+          {allUsers.length > 0 && (
+            <Separator orientation="vertical" className="h-6 w-px bg-border" />
+          )}
         </div>
-
-        {/* Show count if more than 5 users */}
-        {remainingCount > 0 && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-muted text-xs font-semibold text-muted-foreground hover:bg-muted/80">
-                +{remainingCount}
-              </div>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="text-xs">
-              {remainingCount} more {remainingCount === 1 ? "user" : "users"}
-            </TooltipContent>
-          </Tooltip>
-        )}
-
-        {/* Separator */}
-        {allUsers.length > 0 && (
-          <Separator
-            orientation="vertical"
-            className="h-6 w-px bg-border"
-          />
-        )}
-      </div>
-    </TooltipProvider>
+      </TooltipProvider>
+    </ClientSideSuspense>
   );
 };
