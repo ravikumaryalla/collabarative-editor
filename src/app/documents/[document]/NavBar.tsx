@@ -37,6 +37,7 @@ import { BsFilePdf } from "react-icons/bs";
 import { useEditorStore } from "@/store/use-editor-store";
 import { Avatars } from "./avatar";
 import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
+import { Inbox } from "./inbox";
 
 const NavBar = () => {
   const { editor } = useEditorStore();
@@ -246,12 +247,8 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-      <div
-        className="flex gap-2 p-2 items-center"
-        style={{
-          border: "black 2px red",
-        }}
-      >
+      <div className="flex gap-2 p-2 items-center">
+        <Inbox />
         <Avatars />
 
         <OrganizationSwitcher
