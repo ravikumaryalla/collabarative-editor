@@ -38,8 +38,12 @@ import { useEditorStore } from "@/store/use-editor-store";
 import { Avatars } from "./avatar";
 import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
 import { Inbox } from "./inbox";
+import { Doc } from "../../../../convex/_generated/dataModel";
+interface Navbarprops {
+  data: Doc<"documents">;
+}
 
-const NavBar = () => {
+const NavBar = ({ data }: Navbarprops) => {
   const { editor } = useEditorStore();
 
   const insertTable = (rows: number, columns: number) =>
@@ -64,19 +68,19 @@ const NavBar = () => {
     const blob = new Blob([JSON.stringify(editor?.getJSON())], {
       type: "application/json",
     });
-    onDownload(blob, "document.json");
+    onDownload(blob, `${data.title}.json`);
   };
 
   const handleHtmlDownload = () => {
     if (!editor) return;
     const blob = new Blob([editor?.getHTML() || ""], { type: "text/html" });
-    onDownload(blob, "document.html");
+    onDownload(blob, `${data.title}.html`);
   };
 
   const handleTextDownload = () => {
     if (!editor) return;
     const blob = new Blob([editor?.getHTML() || ""], { type: "text/plain" });
-    onDownload(blob, "document.txt");
+    onDownload(blob, `${data.title}.txt`);
   };
 
   return (
@@ -86,7 +90,7 @@ const NavBar = () => {
           <Image src="/logo.svg" width={36} height={36} alt="logo" />
         </Link>
         <div className="flex flex-col">
-          <Documentinput />
+          <Documentinput title={data.title} id={data._id} />
           <div className="flex gap-3">
             <Menubar className="bg-transparent h-auto border-none shadow-none p-0 print:hidden">
               <MenubarMenu>
