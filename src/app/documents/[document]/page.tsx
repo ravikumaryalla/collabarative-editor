@@ -1,34 +1,25 @@
-"use client";
-import Editor from "./Editor";
-import ToolBar from "./ToolBar";
-import NavBar from "./NavBar";
-import { Room } from "./room";
-import { getUsersList } from "@/app/api/live-blocks-auth/action";
-import { useEffect } from "react";
+import { preloadQuery } from "convex/nextjs";
+import { Id } from "../../../../convex/_generated/dataModel";
+import { Document } from "./document";
+import { api } from "../../../../convex/_generated/api";
+import { auth } from "@clerk/nextjs";
 
-const Document = ({ params }: { params: { document: string } }) => {
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const users = await getUsersList();
-    };
-    fetchUsers();
-  }, []);
+interface DocumentPageProps {
+  params: Promise<{ document: Id<"documents"> }>;
+}
+const DocumentPage = async ({ params }: DocumentPageProps) => {
+  const { document } = await params;
+  const { getToken } = await auth();
+  const token = await getToken({ template: "convex" });
 
-  if (!document) return <div>Loading...</div>;
+  if (!token) throw new Error("Unauthorized");
 
-  return (
-    <Room>
-      <div className="min-h-screen bg-[#FAFBFD]">
-        <NavBar />
-        <div className="flex flex-col">
-          <div className="px-4">
-            <ToolBar />
-          </div>
-        </div>
-        <Editor />
-      </div>
-    </Room>
+  const preloadedDocument = await preloadQuery(
+    api.document.getById,
+    { id: document },
+    { token }
   );
+  return <Document preloadedDocument={preloadedDocument} />;
 };
 
-export default Document;
+export default DocumentPage;
