@@ -320,3 +320,15 @@ body {
 div[data-radix-popper-content-wrapper] {
   z-index: 100 !important;
 }
+
+@media print {
+  /* Hide tooltip container and any popovers during print */
+  .radix-tooltip-content,
+  .radix-popover-content,
+  [data-radix-tooltip-content],
+  [role="tooltip"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+}
