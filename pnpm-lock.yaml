@@ -17,6 +17,9 @@ importers:
       '@liveblocks/client':
         specifier: ^2.12.2
         version: 2.24.4
+      '@liveblocks/core':
+        specifier: ^3.10.1
+        version: 3.10.1(@types/json-schema@7.0.15)
       '@liveblocks/node':
         specifier: ^2.12.2
         version: 2.24.4
@@ -675,6 +678,11 @@ packages:
 
   '@liveblocks/core@2.24.4':
     resolution: {integrity: sha512-Os2Fs/RgggyrISpqHIefWo864auKIkpw48BG5fvPubcXkLU9i8wUcK5oczWEqJ0JvtyTfqREl/tkEhGf124DCw==}
+
+  '@liveblocks/core@3.10.1':
+    resolution: {integrity: sha512-x1MDhV2shSWYBGH6UPeQkAte3pRZcPsDZ8bRsNSVXEqZnyKhIsO2G859hX6YaXMMqrQXjkz+Pf0bDsOmu08qbA==}
+    peerDependencies:
+      '@types/json-schema': ^7
 
   '@liveblocks/node@2.24.4':
     resolution: {integrity: sha512-2dKJxZUXbtL26DsqT8NEF3GthDIpK5sbEsRYMv7rCdhZaXWPBTrWE4Dh2ZcE6eWAfYA+dSNZaQB8K7GenSKagg==}
@@ -1700,6 +1708,9 @@ packages:
 
   '@types/http-errors@2.0.5':
     resolution: {integrity: sha512-r8Tayk8HJnX0FztbZN7oVqGccWgw98T/0neJphO91KkmOzug1KkofZURD4UaD5uH8AqcFLfdPErnBod0u71/qg==}
+
+  '@types/json-schema@7.0.15':
+    resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
@@ -4516,6 +4527,10 @@ snapshots:
 
   '@liveblocks/core@2.24.4': {}
 
+  '@liveblocks/core@3.10.1(@types/json-schema@7.0.15)':
+    dependencies:
+      '@types/json-schema': 7.0.15
+
   '@liveblocks/node@2.24.4':
     dependencies:
       '@liveblocks/core': 2.24.4
@@ -5640,6 +5655,8 @@ snapshots:
       '@types/node': 20.19.17
 
   '@types/http-errors@2.0.5': {}
+
+  '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
 

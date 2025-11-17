@@ -12,6 +12,7 @@
     "@clerk/nextjs": "^4.31.8",
     "@hookform/resolvers": "^5.2.2",
     "@liveblocks/client": "^2.12.2",
+    "@liveblocks/core": "^3.10.1",
     "@liveblocks/node": "^2.12.2",
     "@liveblocks/react": "^2.12.2",
     "@liveblocks/react-tiptap": "^2.12.2",
