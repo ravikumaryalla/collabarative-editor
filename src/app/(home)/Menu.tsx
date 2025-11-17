@@ -6,46 +6,72 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { Id } from "../../../convex/_generated/dataModel";
+import { Doc, Id } from "../../../convex/_generated/dataModel";
 import RemoveDialog from "./RemoveDialog";
 import { ExternalLinkIcon, PencilIcon, TrashIcon } from "lucide-react";
 import RenameDialog from "./RenameDialog";
 
 interface Menuprops {
   children: React.ReactNode;
-  documentId: Id<"documents">;
+  document: Doc<"documents">;
 }
 
-const Menu = ({ children, documentId }: Menuprops) => {
+const Menu = ({ children, document }: Menuprops) => {
   const handleOpenInNewTab = () => {
-    window.open(`/documents/${documentId}`, "_blank");
+    window.open(`/documents/${document._id}`, "_blank");
   };
 
   const [menuOpen, setMenuOpen] = useState(false);
-  return (
-    <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={handleOpenInNewTab}>
-          <ExternalLinkIcon />
-          Open in new tab
-        </DropdownMenuItem>
+  const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
+  const [renameDialogOpen, setRenameDialogOpen] = useState(false);
 
-        <RemoveDialog documentId={documentId}>
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+  const handleRename = () => {
+    setRenameDialogOpen(true);
+    setMenuOpen(false);
+  };
+
+  return (
+    <>
+      <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+        <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onClick={handleOpenInNewTab}>
+            <ExternalLinkIcon />
+            Open in new tab
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => {
+              setMenuOpen(false);
+              setRemoveDialogOpen(true);
+            }}
+          >
             <TrashIcon />
             Delete
           </DropdownMenuItem>
-        </RemoveDialog>
 
-        <RenameDialog documentId={documentId} setMenuOpen={setMenuOpen}>
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+          <DropdownMenuItem
+            onSelect={(e) => e.preventDefault()}
+            onClick={handleRename}
+          >
             <PencilIcon />
             Rename
           </DropdownMenuItem>
-        </RenameDialog>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <RemoveDialog
+        documentId={document._id}
+        open={removeDialogOpen}
+        setOpen={setRemoveDialogOpen}
+      ></RemoveDialog>
+
+      <RenameDialog
+        document={document}
+        open={renameDialogOpen}
+        setOpen={setRenameDialogOpen}
+      ></RenameDialog>
+    </>
   );
 };
 

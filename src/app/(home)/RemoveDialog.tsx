@@ -16,26 +16,26 @@ import { useMutation } from "convex/react";
 import { toast } from "sonner";
 
 interface RemoveDialogProps {
-  children: React.ReactNode;
   documentId: Id<"documents">;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const RemoveDialog = ({ children, documentId }: RemoveDialogProps) => {
+const RemoveDialog = ({ documentId, open, setOpen }: RemoveDialogProps) => {
   const deleteDocument = useMutation(api.document.deleteById);
 
   const handleDelete = async () => {
     await deleteDocument({ id: documentId });
-    toast.error("Document Deleted", {
+    toast.success("Document Deleted", {
       position: "top-right",
-      style: { backgroundColor: "#f87171", padding: "12px" },
+      style: { padding: "12px" },
     });
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
-        className="w-600px flex  flex-col gap-16"
+        className="w-600px flex  flex-col gap-16 z-50"
         onClick={(e) => e.stopPropagation()}
       >
         <DialogHeader>

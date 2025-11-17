@@ -15,15 +15,21 @@ import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import { BulletList } from "@tiptap/extension-list";
 import { FontSizeExtension } from "@/extensions/font-size";
-import { useParams } from "next/navigation";
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import Ruler from "./Ruler";
 import { Threads } from "./threads";
 import { useStorage } from "@liveblocks/react/suspense";
-const Editor = () => {
+
+interface editorProps {
+  initialContent?: string;
+}
+const Editor = ({ initialContent }: editorProps) => {
+  console.log("initial com", initialContent);
   const leftMargin = useStorage((root) => root.leftMargin);
   const rightMargin = useStorage((root) => root.rightMargin);
-  const liveblocks = useLiveblocksExtension();
+  const liveblocks = useLiveblocksExtension({
+    initialContent: initialContent,
+  });
   const { setEditor } = useEditorStore();
 
   const editor = useEditor({
@@ -57,7 +63,7 @@ const Editor = () => {
       BulletList,
       FontSizeExtension,
     ],
-    content: `<p style="font-family: Arial">Hi there</p>`,
+    content: ``,
     editorProps: {
       attributes: {
         style: `padding-left: ${leftMargin}px ;padding-right: ${rightMargin}px`,
@@ -73,12 +79,10 @@ const Editor = () => {
     onDestroy: () => setEditor(null),
   });
 
-  const params = useParams();
-
   return (
     <div className="size-full overflow-x-auto px-4 bg-[#F9FBFD] print:px-0 print:bg-white print:overflow-scroll editor-outer-container">
       <Ruler />
-      <div className="relative mx-auto py-4 print:py-0 print:mx-auto print:w-full editor-wrapper">
+      <div className="relative mx-auto py-4 print:py-0 print:mx-auto print:w-full print:min-h-screen  editor-wrapper">
         <div className="w-[816px] print:w-full relative mx-auto">
           <EditorContent editor={editor} />
         </div>

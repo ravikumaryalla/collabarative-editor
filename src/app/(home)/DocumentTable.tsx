@@ -4,11 +4,8 @@ import {
   Table,
   TableHeader,
   TableBody,
-  TableFooter,
-  TableHead,
   TableRow,
   TableCell,
-  TableCaption,
 } from "../../components/ui/table";
 import { SiGoogledocs } from "react-icons/si";
 import { format } from "date-fns";
@@ -17,7 +14,6 @@ import {
   CircleUserIcon,
   LoaderIcon,
   MoreVerticalIcon,
-  PencilIcon,
 } from "lucide-react";
 import Menu from "./Menu";
 import { Button } from "@/components/ui/button";
@@ -87,7 +83,7 @@ const DocumentTable = ({
                   {format(new Date(document._creationTime), "MMM dd, yyyy h")}
                 </TableCell>
                 <TableCell>
-                  <Menu documentId={document._id}>
+                  <Menu document={document}>
                     <Button variant={"ghost"} className="rounded-lg">
                       <MoreVerticalIcon className="size-4 cursor-pointer" />
                     </Button>

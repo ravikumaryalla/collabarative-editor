@@ -17,11 +17,11 @@ export const Document = ({ preloadedDocument }: DocumentProps) => {
       <div className="min-h-screen bg-[#FAFBFD]">
         <NavBar data={document} />
         <div className="flex flex-col">
-          <div className="px-4">
+          <div className="px-4 print:hidden">
             <ToolBar />
           </div>
         </div>
-        <Editor />
+        <Editor initialContent={document.initialContent} />
       </div>
     </Room>
   );

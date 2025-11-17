@@ -8,13 +8,23 @@ import {
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-  MenubarSeparator,
   MenubarShortcut,
   MenubarSub,
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   BoldIcon,
   FileIcon,
@@ -39,12 +49,22 @@ import { Avatars } from "./avatar";
 import { UserButton, OrganizationSwitcher } from "@clerk/nextjs";
 import { Inbox } from "./inbox";
 import { Doc } from "../../../../convex/_generated/dataModel";
+import RenameDialog from "../../(home)/RenameDialog";
+import { useState } from "react";
+
 interface Navbarprops {
   data: Doc<"documents">;
 }
 
 const NavBar = ({ data }: Navbarprops) => {
   const { editor } = useEditorStore();
+  const [fileMenuOpen, setFileMenuOpen] = useState(false);
+  const [renameDialogOpen, setRenameDialogOpen] = useState(false);
+
+  const handleRename = () => {
+    setRenameDialogOpen(true);
+    setFileMenuOpen(false);
+  };
 
   const insertTable = (rows: number, columns: number) =>
     editor?.commands.insertTable({
@@ -84,7 +104,7 @@ const NavBar = ({ data }: Navbarprops) => {
   };
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between print:hidden">
       <div className="flex gap-2 p-2 items-center ">
         <Link href="/">
           <Image src="/logo.svg" width={36} height={36} alt="logo" />
@@ -92,54 +112,58 @@ const NavBar = ({ data }: Navbarprops) => {
         <div className="flex flex-col">
           <Documentinput title={data.title} id={data._id} />
           <div className="flex gap-3">
-            <Menubar className="bg-transparent h-auto border-none shadow-none p-0 print:hidden">
-              <MenubarMenu>
-                <MenubarTrigger className="p-0">File</MenubarTrigger>
-                <MenubarContent className="text-base print:hidden">
-                  <MenubarSub>
-                    <MenubarSubTrigger>
-                      <FileIcon className=" size-4 mr-2" /> Save
-                    </MenubarSubTrigger>
+            <DropdownMenu open={fileMenuOpen} onOpenChange={setFileMenuOpen}>
+              <DropdownMenuTrigger className="p-0 bg-transparent border-none shadow-none h-auto text-base outline-none focus:outline-none data-[state=open]:bg-transparent hover:bg-transparent cursor-pointer">
+                File
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="text-base print:hidden">
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <FileIcon className=" size-4 mr-2" /> Save
+                  </DropdownMenuSubTrigger>
 
-                    <MenubarSubContent onClick={() => handleJsonDownload()}>
-                      <MenubarItem>
-                        <FileJsonIcon className=" size-4 mr-2" /> JSON
-                      </MenubarItem>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuItem onClick={() => handleJsonDownload()}>
+                      <FileJsonIcon className=" size-4 mr-2" /> JSON
+                    </DropdownMenuItem>
 
-                      <MenubarItem onClick={() => handleHtmlDownload()}>
-                        <GlobeIcon className=" size-4 mr-2" /> HTML
-                      </MenubarItem>
+                    <DropdownMenuItem onClick={() => handleHtmlDownload()}>
+                      <GlobeIcon className=" size-4 mr-2" /> HTML
+                    </DropdownMenuItem>
 
-                      <MenubarItem onClick={() => window.print()}>
-                        <BsFilePdf className=" size-4 mr-2" /> PDF
-                      </MenubarItem>
+                    <DropdownMenuItem onClick={() => window.print()}>
+                      <BsFilePdf className=" size-4 mr-2" /> PDF
+                    </DropdownMenuItem>
 
-                      <MenubarItem onClick={() => handleTextDownload()}>
-                        <FileTextIcon className=" size-4 mr-2" /> TEXT
-                      </MenubarItem>
-                    </MenubarSubContent>
-                  </MenubarSub>
-                  <MenubarItem>
-                    <FilePlusIcon className=" size-4 mr-2" /> New Document
-                  </MenubarItem>
-                  <MenubarSeparator />
-                  <MenubarItem>
-                    <FilePenIcon className=" size-4 mr-2" /> Rename
-                  </MenubarItem>
+                    <DropdownMenuItem onClick={() => handleTextDownload()}>
+                      <FileTextIcon className=" size-4 mr-2" /> TEXT
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuItem>
+                  <FilePlusIcon className=" size-4 mr-2" /> New Document
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
 
-                  <MenubarItem>
-                    <TrashIcon className=" size-4 mr-2" /> Remove
-                  </MenubarItem>
+                <DropdownMenuItem
+                  onSelect={(e) => e.preventDefault()}
+                  onClick={handleRename}
+                >
+                  <FilePenIcon className=" size-4 mr-2" /> Rename
+                </DropdownMenuItem>
 
-                  <MenubarSeparator />
+                <DropdownMenuItem>
+                  <TrashIcon className=" size-4 mr-2" /> Remove
+                </DropdownMenuItem>
 
-                  <MenubarItem onClick={() => window.print()}>
-                    <PrinterIcon className=" size-4 mr-2" /> Print
-                    <MenubarShortcut>⌘P</MenubarShortcut>
-                  </MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-            </Menubar>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem onClick={() => window.print()}>
+                  <PrinterIcon className=" size-4 mr-2" /> Print
+                  <DropdownMenuShortcut>⌘P</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             <Menubar className="bg-transparent h-auto border-none shadow-none p-0 print:hidden">
               <MenubarMenu>
@@ -249,6 +273,13 @@ const NavBar = ({ data }: Navbarprops) => {
               </MenubarMenu>
             </Menubar>
           </div>
+          {renameDialogOpen && (
+            <RenameDialog
+              document={data}
+              open={renameDialogOpen}
+              setOpen={setRenameDialogOpen}
+            />
+          )}
         </div>
       </div>
       <div className="flex gap-2 p-2 items-center">

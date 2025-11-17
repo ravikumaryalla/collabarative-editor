@@ -66,17 +66,24 @@ export const createDocument = mutation({
     initialContent: v.optional(v.string()),
   },
   handler: async (ctx, { title, initialContent }) => {
+    console.log("init in convex ----", initialContent);
     const authInfo = await ctx.auth.getUserIdentity();
     if (!authInfo) throw new Error("Unauthorized");
+    type Document = {
+      title: string;
+      initialContent: string | undefined;
+      ownerId: string;
+      organizationId?: string;
+    };
 
-    const documentData: any = {
+    const documentData: Document = {
       title,
       initialContent,
       ownerId: authInfo.subject,
     };
 
     if (authInfo.org_id) {
-      documentData.organizationId = authInfo.org_id;
+      documentData.organizationId = authInfo.org_id.toString();
     }
 
     return await ctx.db.insert("documents", documentData);
@@ -101,11 +108,12 @@ export const renameById = mutation({
   args: { id: v.id("documents"), title: v.string() },
   handler: async (ctx, args) => {
     const user = await ctx.auth.getUserIdentity();
+    console.log(user, "user");
     if (!user) throw new Error("Unauthorized");
 
     const document = await ctx.db.get(args.id);
     if (!document) throw new Error("Document not found");
-    if (document.ownerId !== user.subject) throw new Error("Unauthorized");
+    // if (document.ownerId !== user.subject) throw new Error("Unauthorized");
 
     return await ctx.db.patch(args.id, { title: args.title });
   },

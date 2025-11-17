@@ -69,10 +69,10 @@ const SearchInput = () => {
 
             <PopoverContent className="w-full max-w-[700px] min-w-[650px] p-1 rounded-xl">
               <div className="w-full bg-[#f0f4f9] rounded flex flex-col gap-2 ">
-                {status === "loading" ? (
-                  <LoaderIcon className="size-4 animate-spin" />
+                {status === "LoadingFirstPage" || status === "LoadingMore" ? (
+                  <LoaderIcon className="size-4 animate-spin mx-auto my-2" />
                 ) : results.length > 0 ? (
-                  results.map((doc, index) => (
+                  results.map((doc) => (
                     <div
                       key={doc._id}
                       className="flex flex-col gap-2 items-center justify-between py-2 px-4 hover:bg-[#dfe8f5] cursor-pointer rounded-xl"
@@ -83,7 +83,6 @@ const SearchInput = () => {
                     >
                       <div className="w-full flex gap-2">
                         <SiGoogledocs className="fill-blue-500 size-6" />
-
                         <div>{doc.title}</div>
                       </div>
                     </div>

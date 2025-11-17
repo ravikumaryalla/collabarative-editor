@@ -10,41 +10,38 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Id } from "../../../convex/_generated/dataModel";
+import { Doc, Id } from "../../../convex/_generated/dataModel";
 import { api } from "../../../convex/_generated/api";
 import { useMutation } from "convex/react";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 
-interface RemoveDialogProps {
-  children: React.ReactNode;
-  documentId: Id<"documents">;
-  setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+interface RenameDialogProps {
+  document: Doc<"documents">,
+  open: boolean,
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const RenameDialog = ({
-  children,
-  documentId,
-  setMenuOpen,
-}: RemoveDialogProps) => {
+  document,
+  open,
+  setOpen,
+}: RenameDialogProps) => {
   const renameDocument = useMutation(api.document.renameById);
-  const [inputValue, setInputValue] = useState("");
-  const [open, setOpen] = useState(false);
+  const [inputValue, setInputValue] = useState(document.title);
+ 
 
   const handleRename = async () => {
     if (!inputValue) return;
-    await renameDocument({ id: documentId, title: inputValue });
+    await renameDocument({ id: document._id, title: inputValue });
     setOpen(false);
-    setMenuOpen(false);
   };
 
   const handleClose = () => {
     setOpen(false);
-    setMenuOpen(false);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className="w-600px flex  flex-col gap-16"
         onClick={(e) => e.stopPropagation()}

@@ -2,12 +2,13 @@
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BoldIcon,
   ChevronDownIcon,
   HighlighterIcon,
   ImageIcon,
+  Import,
   ItalicIcon,
   Link2Icon,
   ListCollapseIcon,
@@ -45,9 +46,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { SketchPicker } from "react-color";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import dynamic from "next/dynamic";
 
 interface ToolBarButtonProps {
   onClick?: () => void;
@@ -55,6 +56,10 @@ interface ToolBarButtonProps {
   icon: LucideIcon;
   label: string;
 }
+const SketchPicker = dynamic(
+  () => import("react-color").then((mod) => mod.SketchPicker),
+  { ssr: false }
+);
 
 const ToolBarButton = ({
   onClick,

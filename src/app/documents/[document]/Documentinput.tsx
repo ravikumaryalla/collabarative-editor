@@ -1,7 +1,7 @@
 "use client";
 import { useMutation } from "convex/react";
 import { useState, useEffect, useCallback } from "react";
-import { BsCloudCheck } from "react-icons/bs";
+import { BsCloud, BsCloudCheck } from "react-icons/bs";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 import { Cloud, Loader2 } from "lucide-react";
@@ -99,7 +99,7 @@ const DocumentInput = ({ title, id }: DocumentInputProps) => {
       <div className="relative w-6 h-6 flex items-center justify-center">
         {showLoader ? (
           <>
-            <Cloud size={24} className="text-gray-400" />
+            <BsCloud size={24} className="text-gray-400" />
             <Loader2
               size={10}
               className="absolute top-[9px] animate-spin text-blue-500"
